@@ -3,9 +3,10 @@
 
 process.env.DBNAME= 'album-test';
 var expect = require('chai').expect;
-var Album;
 var fs = require('fs');
 var rimraf = require('rimraf');
+var path = require('path');
+var Album;
 
 describe('Album', function(){
 
@@ -21,6 +22,9 @@ describe('Album', function(){
     var imgdir = __dirname + '/../../app/static/img/';
     rimraf.sync(imgdir);
     fs.mkdirSync(imgdir);
+    var origfile = __dirname + '/../fixtures/family.jpg';
+    var copyfile = __dirname + '/../fixtures/family-copy.jpg';
+    fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile));
   });
 
   describe('new', function(){
@@ -41,11 +45,9 @@ describe('Album', function(){
       obj.title = 'Euro Vacation';
       obj.taken = '2014-03-25';
       var a1 = new Album(obj);
-
-      var oldname = __dirname + '/../fixtures/family.jpg';
-      var newname = 'cover.jpg';
-      a1.addCover(oldname, newname);
-      expect(a1.cover).to.equal(__dirname + '/../../app/static/img/eurovacation/cover.jpg');
+      var oldname = __dirname + '/../fixtures/family-copy.jpg';
+      a1.addCover(oldname);
+      expect(a1.cover).to.equal(path.normalize(__dirname + '/../../app/static/img/eurovacation/cover.jpg'));
     });
   });
 });
