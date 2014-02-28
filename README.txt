@@ -8,4 +8,3 @@ Need To:
   write update instance function
   About to test the github emoji feature
 
-  :beers:
