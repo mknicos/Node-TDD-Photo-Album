@@ -20,7 +20,7 @@ describe('albums', function(){
   });
 
   beforeEach(function(done){
-    var imgdir = __dirname + '/../../app/static/img/';
+    var imgdir = __dirname + '/../../app/static/img/test*';
     rimraf.sync(imgdir);
     fs.mkdirSync(imgdir);
     var origfile = __dirname + '/../fixtures/family.jpg';

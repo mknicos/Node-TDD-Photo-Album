@@ -9,10 +9,24 @@ html(class='no-js', lang='en')
     link(rel='stylesheet', href='/css/foundation.css')
     link(rel='stylesheet', href='/less/app.css')
     script(src='/js/vendor/modernizr.js')
-  body
+  body(style='background-image:url("'+record.cover+'")')
     .row
       .small-12.columns
         h1=title
+        h3=moment(record.taken).format('MMMM Do, YYYY')
+    .row
+      .small-4.columns
+        a.button(href='/') Home
+      .small-8.columns
+        form(action='/albums/'+ record._id.toString(), method='post', enctype='multipart/form-data')
+          fieldset
+            legend New Photo
+            .row
+              .small-6.columns
+                label Photo
+                input(type='file', name='photo')
+              .small-6.columns
+                button.small.radius Add Photo
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.js')
