@@ -5,4 +5,7 @@ Add album button works, home buton takes you home.
 Add photo to array successful
 
 Need To:
-  write update instance funstion
+  write update instance function
+  About to test the github emoji feature
+
+  :beers:
