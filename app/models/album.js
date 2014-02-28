@@ -54,3 +54,9 @@ Album.findById = function(id, fn){
     fn(record);
   });
 };
+
+Album.prototype.update = function(fn){
+  albums.update({_id:this._id}, this, function(err, count){
+    fn(err, count);
+  });
+};

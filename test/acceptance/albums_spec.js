@@ -3,9 +3,8 @@
 process.env.DBNAME = 'album-test';
 var app = require('../../app/app');
 var request = require('supertest');
-var rimraf = require('rimraf');
 var fs = require('fs');
-//var expect = require('chai').expect;
+var exec = require('child_process').exec;
 var Album;
 
 describe('albums', function(){
@@ -20,16 +19,20 @@ describe('albums', function(){
   });
 
   beforeEach(function(done){
-    var imgdir = __dirname + '/../../app/static/img/test*';
-    rimraf.sync(imgdir);
-    fs.mkdirSync(imgdir);
-    var origfile = __dirname + '/../fixtures/family.jpg';
-    var copyfile = __dirname + '/../fixtures/family-copy.jpg';
-    fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile));
+    var testdir = __dirname + '/../../app/static/img/test*';
+    var cmd = 'rm-rf ' + testdir;
 
-    global.nss.db.dropDatabase(function(err,result){
+    exec(cmd, function(){
+      var origfile = __dirname + '/../fixtures/family.jpg';
+      var copyfile = __dirname + '/../fixtures/family-copy.jpg';
+      var copyfile2 = __dirname + '/../fixtures/family-copy2.jpg';
+      fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile));
+      fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile2));
+
+      global.nss.db.dropDatabase(function(err,result){
         done();
       });
+    });
   });
 
   describe('GET /albums/new', function(){

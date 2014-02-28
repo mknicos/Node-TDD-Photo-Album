@@ -74,6 +74,28 @@ describe('Album', function(){
       });
     });
   });
+  describe('#update', function(){
+    it('should update an existing photo album', function(done){
+      var obj = {};
+      obj.title = 'Euro Vacation';
+      obj.taken = '2014-03-25';
+      var a1 = new Album(obj);
+
+      a1.insert(function(){
+        var id = a1._id.toString();
+        Album.findById(id, function(album){
+          var photo = __dirname + '/../fixtures/family-copy2.jpg';
+          album.addPhoto(photo, 'ocean.jpg');
+          expect(album.photos).to.have.length(1);
+          expect(album.photos[0]).to.equal('/img/testeurovacation/ocean.jpg');
+          album.update(function(err, count){
+            expect(count).to.equal(1);
+            done();
+          });
+        });
+      });
+    });
+  });
 
   describe('Find Methods', function(){
     var id, a1;
